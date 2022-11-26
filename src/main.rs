@@ -9,17 +9,17 @@ fn main() -> Result<(), &'static str> {
         panic!("Missing command line arguments.");
     }
 
-    let ccy_arg: &str = args[1].as_str();
+    let ccy: &str = args[1].as_str();
     let num_trades: i32 = (&args[2]).parse::<i32>().unwrap();
-    let ccy: f64 = match ccy_arg {
+    let spot_price: f64 = match ccy {
         "GBP/USD" => 1.21050,
         "EUR/USD" => 1.04262,
         "EUR/GBP" => 0.86670,
         _ => panic!("Invalid currency pair. Please see docs for instructions.")
     };
-    println!("CCY PRICE: {}: {}",ccy_arg, ccy);
+    println!("CCY PRICE: {}: {}",ccy, spot_price);
 
-    let prices = create_next_x_prices(ccy, num_trades);
+    let prices = create_next_x_prices(spot_price, num_trades);
     println!("Total: {} \nData: {:?}",prices.len(), prices);
 
     Ok(())
@@ -27,12 +27,12 @@ fn main() -> Result<(), &'static str> {
 
 /// Given a currency, it will simulate x historical prices.
 fn create_next_x_prices(base: f64, number_to_generate: i32) -> Vec<f64> {
-    let mut i: i32 = 0;
+    let mut idx: i32 = 0;
     let mut curr_price: f64 = base;
-    let mut array: Vec<f64> = Vec::new();
+    let mut prices: Vec<f64> = Vec::new();
 
-    while i < number_to_generate {
-        i += 1;
+    while idx < number_to_generate {
+        idx += 1;
 
         let price_movement: f64 = determine_price_move();
         let new_price: f64 = determine_price_direction(&curr_price, price_movement);
@@ -40,11 +40,11 @@ fn create_next_x_prices(base: f64, number_to_generate: i32) -> Vec<f64> {
         // round the numbers to 5 D.P.
         let rounded_to_five_dp: f64 = (new_price * 100000f64).floor() / 100000.0;
 
-        array.push(rounded_to_five_dp);
+        prices.push(rounded_to_five_dp);
         curr_price = rounded_to_five_dp;
     }
 
-    return array;
+    return prices;
 }
 
 /// Determines the price movement.
