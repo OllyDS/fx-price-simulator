@@ -1,16 +1,6 @@
-extern crate core;
-
 use rand::prelude::*;
-use std::env;
 
-fn main() -> Result<(), &'static str> {
-    let args: Vec<String> = env::args().collect();
-    if args.len() <= 2 {
-        panic!("Missing command line arguments.");
-    }
-
-    let ccy: &str = args[1].as_str();
-    let num_trades: i32 = (&args[2]).parse::<i32>().unwrap();
+pub fn generate_fx_prices(ccy: &str, iterations: i32) -> Result<Vec<f64>, &'static str> {
     let spot_price: f64 = match ccy {
         "GBP/USD" => 1.21050,
         "EUR/USD" => 1.04262,
@@ -19,10 +9,9 @@ fn main() -> Result<(), &'static str> {
     };
     println!("CCY PRICE: {}: {}",ccy, spot_price);
 
-    let prices = create_next_x_prices(spot_price, num_trades);
-    println!("Total: {} \nData: {:?}",prices.len(), prices);
+    let prices = create_next_x_prices(spot_price, iterations);
 
-    Ok(())
+    Ok(prices)
 }
 
 /// Given a currency, it will simulate x historical prices.
