@@ -11,6 +11,6 @@ fn main() {
     let ccy: &str = args[1].as_str();
     let num_trades: i32 = (&args[2]).parse::<i32>().unwrap();
 
-    let fx_prices: Vec<f64> = generate_fx_prices(ccy, num_trades).unwrap();
+    let fx_prices: Vec<f64> = generate_fx_prices(ccy, num_trades);
     println!("Total: {} \nData: {:?}",fx_prices.len(), fx_prices);
 }

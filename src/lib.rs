@@ -1,6 +1,6 @@
 use rand::prelude::*;
 
-pub fn generate_fx_prices(ccy: &str, iterations: i32) -> Result<Vec<f64>, &'static str> {
+pub fn generate_fx_prices(ccy: &str, iterations: i32) -> Vec<f64> {
     let spot_price: f64 = match ccy {
         "GBP/USD" => 1.21050,
         "EUR/USD" => 1.04262,
@@ -9,9 +9,7 @@ pub fn generate_fx_prices(ccy: &str, iterations: i32) -> Result<Vec<f64>, &'stat
     };
     println!("CCY PRICE: {}: {}",ccy, spot_price);
 
-    let prices = create_next_x_prices(spot_price, iterations);
-
-    Ok(prices)
+    return create_next_x_prices(spot_price, iterations);
 }
 
 /// Given a currency, it will simulate x historical prices.
