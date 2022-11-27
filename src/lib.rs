@@ -7,13 +7,13 @@ pub fn generate_fx_prices(ccy: &str, iterations: i32) -> Vec<f64> {
         "EUR/GBP" => 0.86670,
         _ => panic!("Invalid currency pair. Please see docs for instructions.")
     };
-    println!("CCY PRICE: {}: {}",ccy, spot_price);
+    println!("CCY PRICE: {}: {}", ccy, spot_price);
 
     return create_next_x_prices(spot_price, iterations);
 }
 
 /// Given a currency, it will simulate x historical prices.
-fn create_next_x_prices(base: f64, number_to_generate: i32) -> Vec<f64> {
+pub fn create_next_x_prices(base: f64, number_to_generate: i32) -> Vec<f64> {
     let mut idx: i32 = 0;
     let mut curr_price: f64 = base;
     let mut prices: Vec<f64> = Vec::new();
@@ -36,7 +36,7 @@ fn create_next_x_prices(base: f64, number_to_generate: i32) -> Vec<f64> {
 
 /// Determines the price movement.
 /// Calculates price move and adds random chance of x standard deviation move.
-fn determine_price_move() -> f64 {
+pub fn determine_price_move() -> f64 {
     // firstly let's determine the sigma of the move.
     // This is a good primer on sigma from MIT: https://tinyurl.com/8ecf5ud5
     let sigma_range: f64 = thread_rng().gen_range(0.0..100.0);
